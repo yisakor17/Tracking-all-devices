@@ -25,7 +25,9 @@ class handler(BaseHTTPRequestHandler):
         host_url = query.get('url', [''])[0]
         user_agent = query.get('userAgent', [''])[0]
         referrer = query.get('referrer', [''])[0]
-        
+        ip_address = self.client_address[0] # Get the user's IP address
+
+        # Rest of your code remains the same...
         is_unauthorized = not any(domain in host_url for domain in AUTHORIZED_DOMAINS)
         
         log_entry = f"Timestamp: {self.date_time_string()}, IP: {self.client_address[0]}, Host: {host_url}, User-Agent: {user_agent}\n"
@@ -35,8 +37,8 @@ class handler(BaseHTTPRequestHandler):
             log_file.write(log_entry)
         
         if is_unauthorized:
-            print(f"UNAUTHORIZED ACCESS DETECTED: {host_url}") # Prints to Vercel logs
-            self.send_alert(host_url, user_agent, referrer)
+            print(f"UNAUTHORIZED ACCESS DETECTED: {host_url}")
+            self.send_alert(host_url, ip_address, user_agent, referrer)
             
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
@@ -45,10 +47,10 @@ class handler(BaseHTTPRequestHandler):
         self.wfile.write(host_url)
         self.wfile.write(b"Tracking signal received.")
 
-    def send_alert(self, host, user_agent, referrer):
+    def send_alert(self, host, ip_address, user_agent, referrer):
         try:
             msg = MIMEText(
-                f"Unauthorized use detected!\n\nHost: {host}\nUser-Agent: {user_agent}\nReferrer: {referrer}"
+                f"Unauthorized use detected!\n\nHost: {host}\nIP Address: {ip_address}\nUser-Agent: {user_agent}\nReferrer: {referrer}"
             )
             msg['Subject'] = 'Unauthorized Website Use Alert'
             msg['From'] = EMAIL_USER
