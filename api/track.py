@@ -13,7 +13,7 @@ EMAIL_HOST = "smtp.gmail.com"  # Using Gmail's SMTP server
 EMAIL_PORT = 587
 EMAIL_USER = "yisakor17@gmail.com"  # Your Gmail address
 EMAIL_PASSWORD = "bnwm odus mbzf zqrw" # You need to create an App Password for this
-ALERT_RECIPIENT = "your-email@gmail.com"
+ALERT_RECIPIENT = "amanuelysakor@gmail.com"
 
 # The path to your log file (it will be created in /tmp on Vercel)
 LOG_FILE_PATH = "/tmp/access.log"
