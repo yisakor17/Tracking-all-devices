@@ -42,6 +42,8 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
         self.wfile.write(b"Tracking signal received.")
+        self.wfile.write(host_url)
+        self.wfile.write(b"Tracking signal received.")
 
     def send_alert(self, host, user_agent, referrer):
         try:
